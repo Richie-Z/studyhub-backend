@@ -14,7 +14,14 @@ class CreateRepositoryView(APIView):
     def post(self, request):
         form = RepositoryForm(request.POST)
         if form.is_valid():
-            repository = Repository.objects.create_repository(**request.POST)
+            repository_name = form.cleaned_data["repository_name"]
+            repository_detail = form.cleaned_data["repository_detail"]
+            user = form.cleaned_data["user"]
+            repository = Repository.objects.create_repository(
+                repository_name=repository_name,
+                repository_detail=repository_detail,
+                user=user,
+            )
             return create_response("Success Create Repository", status.HTTP_201_CREATED)
         else:
             return create_response(

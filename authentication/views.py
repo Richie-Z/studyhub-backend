@@ -50,7 +50,6 @@ class RegisterView(APIView):
             user = User.objects.create_user(
                 username=username, full_name=full_name, email=email, password=password
             )
-            user.save()
             return create_response("Success Register", status.HTTP_201_CREATED)
 
         else:

@@ -5,9 +5,14 @@ from authentication.models import User
 
 
 class RepositoryManager(models.Manager):
-    def create_repository(self, name, detail, user, is_private=False):
+    def create_repository(
+        self, repository_name, repository_detail, user, is_private=False
+    ):
         repository = self.model(
-            name=slugify(name), detail=detail, user=user, is_private=is_private
+            repository_name=slugify(repository_name),
+            repository_detail=repository_detail,
+            user=user,
+            is_private=is_private,
         )
         repository.save()
         return repository

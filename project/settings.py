@@ -15,6 +15,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "authentication.apps.AuthenticationConfig",
+    "repository.apps.RepositoryConfig",
+    "commit.apps.CommitConfig",
 ]
 
 MIDDLEWARE = [

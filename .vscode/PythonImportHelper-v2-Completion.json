@@ -24,6 +24,54 @@
         "documentation": {}
     },
     {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
         "label": "admin",
         "importPath": "django.contrib",
         "description": "django.contrib",
@@ -37,6 +85,38 @@
         "description": "django.contrib",
         "isExtraImport": true,
         "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
         "documentation": {}
     },
     {
@@ -88,14 +168,6 @@
         "documentation": {}
     },
     {
-        "label": "check_password",
-        "importPath": "django.contrib.auth.hashers",
-        "description": "django.contrib.auth.hashers",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth.hashers",
-        "documentation": {}
-    },
-    {
         "label": "serializers",
         "importPath": "rest_framework",
         "description": "rest_framework",
@@ -117,6 +189,22 @@
         "description": "django.contrib.auth",
         "isExtraImport": true,
         "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
         "documentation": {}
     },
     {
@@ -200,6 +288,22 @@
         "documentation": {}
     },
     {
+        "label": "User",
+        "importPath": "authentication.models",
+        "description": "authentication.models",
+        "isExtraImport": true,
+        "detail": "authentication.models",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "importPath": "authentication.models",
+        "description": "authentication.models",
+        "isExtraImport": true,
+        "detail": "authentication.models",
+        "documentation": {}
+    },
+    {
         "label": "IsAuthenticated",
         "importPath": "rest_framework.permissions",
         "description": "rest_framework.permissions",
@@ -221,6 +325,55 @@
         "description": "project.helpers",
         "isExtraImport": true,
         "detail": "project.helpers",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "django.db.models.deletion",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "Repository",
+        "importPath": "repository.models",
+        "description": "repository.models",
+        "isExtraImport": true,
+        "detail": "repository.models",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
         "documentation": {}
     },
     {
@@ -369,6 +522,87 @@
         "description": "authentication.views",
         "peekOfCode": "class RegisterView(APIView):\n    def post(self, request):\n        form = RegistrationForm(request.POST)\n        if form.is_valid():\n            username = form.cleaned_data[\"username\"]\n            email = form.cleaned_data[\"email\"]\n            password = form.cleaned_data[\"password\"]\n            full_name = form.cleaned_data[\"full_name\"]\n            user = User.objects.create_user(\n                username=username, full_name=full_name, email=email, password=password",
         "detail": "authentication.views",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "commit.migrations.0001_initial",
+        "description": "commit.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        (\"repository\", \"0001_initial\"),\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name=\"Commit\",\n            fields=[",
+        "detail": "commit.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "CommitConfig",
+        "kind": 6,
+        "importPath": "commit.apps",
+        "description": "commit.apps",
+        "peekOfCode": "class CommitConfig(AppConfig):\n    default_auto_field = \"django.db.models.BigAutoField\"\n    name = \"commit\"",
+        "detail": "commit.apps",
+        "documentation": {}
+    },
+    {
+        "label": "CommitManager",
+        "kind": 6,
+        "importPath": "commit.models",
+        "description": "commit.models",
+        "peekOfCode": "class CommitManager(models.Manager):\n    def create_commit(\n        self,\n        commit_msg,\n        user_id,\n        repository_id,\n        commit_date,\n        is_active=True,\n        is_rollback=False,\n    ):",
+        "detail": "commit.models",
+        "documentation": {}
+    },
+    {
+        "label": "Commit",
+        "kind": 6,
+        "importPath": "commit.models",
+        "description": "commit.models",
+        "peekOfCode": "class Commit(models.Model):\n    commit_msg = models.CharField(max_length=255)\n    user_id = models.ForeignKey(User, on_delete=models.CASCADE)\n    repository_id = models.ForeignKey(Repository, on_delete=models.CASCADE)\n    commit_date = models.DateField()\n    is_active = models.BooleanField(default=True)\n    is_rollback = models.BooleanField(default=False)\n    objects = CommitManager()\n    def __str__(self) -> str:\n        return self.commit_msg",
+        "detail": "commit.models",
+        "documentation": {}
+    },
+    {
+        "label": "FolderManager",
+        "kind": 6,
+        "importPath": "commit.models",
+        "description": "commit.models",
+        "peekOfCode": "class FolderManager(models.Manager):\n    def create_folder(self, commit_id, folder_name):\n        folder = self.model(commit_id=commit_id, folder_name=folder_name)\n        folder.save()\n        return folder\nclass CommitFolder(models.Model):\n    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    folder_name = models.CharField(max_length=255)\n    objects = FolderManager()\n    def __str__(self) -> str:",
+        "detail": "commit.models",
+        "documentation": {}
+    },
+    {
+        "label": "CommitFolder",
+        "kind": 6,
+        "importPath": "commit.models",
+        "description": "commit.models",
+        "peekOfCode": "class CommitFolder(models.Model):\n    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    folder_name = models.CharField(max_length=255)\n    objects = FolderManager()\n    def __str__(self) -> str:\n        return self.folder_name\nclass FileManager(models.Manager):\n    def create_file(self, commit_id, file_name, commit_folder_id):\n        file = self.model(\n            commit_id=commit_id, file_name=file_name, commit_folder_id=commit_folder_id",
+        "detail": "commit.models",
+        "documentation": {}
+    },
+    {
+        "label": "FileManager",
+        "kind": 6,
+        "importPath": "commit.models",
+        "description": "commit.models",
+        "peekOfCode": "class FileManager(models.Manager):\n    def create_file(self, commit_id, file_name, commit_folder_id):\n        file = self.model(\n            commit_id=commit_id, file_name=file_name, commit_folder_id=commit_folder_id\n        )\n        file.save()\n        return file\nclass CommitFile(models.Model):\n    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    file_name = models.CharField(max_length=255)",
+        "detail": "commit.models",
+        "documentation": {}
+    },
+    {
+        "label": "CommitFile",
+        "kind": 6,
+        "importPath": "commit.models",
+        "description": "commit.models",
+        "peekOfCode": "class CommitFile(models.Model):\n    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    file_name = models.CharField(max_length=255)\n    commit_folder_id = models.ForeignKey(\n        CommitFolder, on_delete=models.CASCADE, null=True\n    )\n    objects = FileManager()\n    def __str__(self) -> str:\n        return self.file_name",
+        "detail": "commit.models",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "commit.urls",
+        "description": "commit.urls",
+        "peekOfCode": "urlpatterns = []",
+        "detail": "commit.urls",
         "documentation": {}
     },
     {
@@ -574,7 +808,7 @@
         "kind": 5,
         "importPath": "project.urls",
         "description": "project.urls",
-        "peekOfCode": "urlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"api/authentication/\", include(\"authentication.urls\")),\n]",
+        "peekOfCode": "urlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"api/authentication/\", include(\"authentication.urls\")),\n    path(\"api/repository/\", include(\"repository.urls\")),\n    path(\"api/commit/\", include(\"commit.urls\")),\n]",
         "detail": "project.urls",
         "documentation": {}
     },
@@ -585,6 +819,69 @@
         "description": "project.wsgi",
         "peekOfCode": "application = get_wsgi_application()",
         "detail": "project.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "repository.migrations.0001_initial",
+        "description": "repository.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        migrations.swappable_dependency(settings.AUTH_USER_MODEL),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name=\"Repository\",\n            fields=[\n                (",
+        "detail": "repository.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "RepositoryConfig",
+        "kind": 6,
+        "importPath": "repository.apps",
+        "description": "repository.apps",
+        "peekOfCode": "class RepositoryConfig(AppConfig):\n    default_auto_field = \"django.db.models.BigAutoField\"\n    name = \"repository\"",
+        "detail": "repository.apps",
+        "documentation": {}
+    },
+    {
+        "label": "RepositoryManager",
+        "kind": 6,
+        "importPath": "repository.models",
+        "description": "repository.models",
+        "peekOfCode": "class RepositoryManager(models.Manager):\n    def create_repository(self, name, detail, user_id, is_private=False):\n        repository = self.model(\n            name=name, detail=detail, user_id=user_id, is_private=is_private\n        )\n        repository.save()\n        return repository\n    def get_public_repositories(self):\n        return self.filter(is_private=False)\nclass Repository(models.Model):",
+        "detail": "repository.models",
+        "documentation": {}
+    },
+    {
+        "label": "Repository",
+        "kind": 6,
+        "importPath": "repository.models",
+        "description": "repository.models",
+        "peekOfCode": "class Repository(models.Model):\n    name = models.CharField(max_length=255)\n    detail = models.TextField()\n    user_id = models.ForeignKey(User, on_delete=models.CASCADE)\n    is_private = models.BooleanField(default=False)\n    objects = RepositoryManager()\n    def __str__(self):\n        return self.name\nclass StarRepositoryManager(models.Manager):\n    def toggle(self, user_id, repository_id):",
+        "detail": "repository.models",
+        "documentation": {}
+    },
+    {
+        "label": "StarRepositoryManager",
+        "kind": 6,
+        "importPath": "repository.models",
+        "description": "repository.models",
+        "peekOfCode": "class StarRepositoryManager(models.Manager):\n    def toggle(self, user_id, repository_id):\n        try:\n            star_repo = self.get(user_id=user_id, repository_id=repository_id)\n            star_repo.delete()\n            return False  # Indicate that the data was deleted\n        except StarRepository.DoesNotExist:\n            self.create(user_id=user_id, repository_id=repository_id)\n            return True  # Indicate that the data was created\nclass StarRepository(models.Model):",
+        "detail": "repository.models",
+        "documentation": {}
+    },
+    {
+        "label": "StarRepository",
+        "kind": 6,
+        "importPath": "repository.models",
+        "description": "repository.models",
+        "peekOfCode": "class StarRepository(models.Model):\n    user_id = models.ForeignKey(User, on_delete=models.CASCADE)\n    repository_id = models.ForeignKey(Repository, on_delete=models.CASCADE)\n    objects = StarRepositoryManager()\n    def __str__(self):\n        return self.name",
+        "detail": "repository.models",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "repository.urls",
+        "description": "repository.urls",
+        "peekOfCode": "urlpatterns = []",
+        "detail": "repository.urls",
         "documentation": {}
     },
     {

@@ -1,4 +1,5 @@
 from django.db import models
+
 from authentication.models import User
 from repository.models import Repository
 
@@ -7,8 +8,8 @@ class CommitManager(models.Manager):
     def create_commit(
         self,
         commit_msg,
-        user_id,
-        repository_id,
+        user,
+        repository,
         commit_date,
         is_active=True,
         is_rollback=False,
@@ -17,8 +18,8 @@ class CommitManager(models.Manager):
 
         commit = self.model(
             commit_msg=commit_msg,
-            user_id=user_id,
-            repository_id=repository_id,
+            user=user,
+            repository=repository,
             commit_date=commit_date,
             is_active=is_active,
             is_rollback=is_rollback,
@@ -28,9 +29,12 @@ class CommitManager(models.Manager):
 
 
 class Commit(models.Model):
+    class Meta:
+        db_table = "commit"
+
     commit_msg = models.CharField(max_length=255)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    repository_id = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
     commit_date = models.DateField()
     is_active = models.BooleanField(default=True)
     is_rollback = models.BooleanField(default=False)
@@ -42,14 +46,17 @@ class Commit(models.Model):
 
 
 class FolderManager(models.Manager):
-    def create_folder(self, commit_id, folder_name):
-        folder = self.model(commit_id=commit_id, folder_name=folder_name)
+    def create_folder(self, commit, folder_name):
+        folder = self.model(commit=commit, folder_name=folder_name)
         folder.save()
         return folder
 
 
 class CommitFolder(models.Model):
-    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)
+    class Meta:
+        db_table = "commit_folder"
+
+    commit = models.ForeignKey(Commit, on_delete=models.CASCADE)
     folder_name = models.CharField(max_length=255)
 
     objects = FolderManager()
@@ -59,16 +66,19 @@ class CommitFolder(models.Model):
 
 
 class FileManager(models.Manager):
-    def create_file(self, commit_id, file_name, commit_folder_id):
+    def create_file(self, commit, file_name, commit_folder_id):
         file = self.model(
-            commit_id=commit_id, file_name=file_name, commit_folder_id=commit_folder_id
+            commit=commit, file_name=file_name, commit_folder_id=commit_folder_id
         )
         file.save()
         return file
 
 
 class CommitFile(models.Model):
-    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)
+    class Meta:
+        db_table = "commit_file"
+
+    commit = models.ForeignKey(Commit, on_delete=models.CASCADE)
     file_name = models.CharField(max_length=255)
     commit_folder_id = models.ForeignKey(
         CommitFolder, on_delete=models.CASCADE, null=True

@@ -1,11 +1,13 @@
 from django.db import models
+from django.utils.text import slugify
+
 from authentication.models import User
 
 
 class RepositoryManager(models.Manager):
-    def create_repository(self, name, detail, user_id, is_private=False):
+    def create_repository(self, name, detail, user, is_private=False):
         repository = self.model(
-            name=name, detail=detail, user_id=user_id, is_private=is_private
+            name=slugify(name), detail=detail, user=user, is_private=is_private
         )
         repository.save()
         return repository
@@ -15,9 +17,12 @@ class RepositoryManager(models.Manager):
 
 
 class Repository(models.Model):
-    name = models.CharField(max_length=255)
-    detail = models.TextField()
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    class Meta:
+        db_table = "repository"
+
+    repository_name = models.CharField(max_length=255)
+    repository_detail = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_private = models.BooleanField(default=False)
 
     objects = RepositoryManager()
@@ -26,24 +31,27 @@ class Repository(models.Model):
         return self.name
 
 
-class StarRepositoryManager(models.Manager):
-    def toggle(self, user_id, repository_id):
+class RepositoryStarManager(models.Manager):
+    def toggle(self, user, repository):
         try:
-            star_repo = self.get(user_id=user_id, repository_id=repository_id)
+            star_repo = self.get(user=user, repository=repository)
             star_repo.delete()
 
             return False  # Indicate that the data was deleted
-        except StarRepository.DoesNotExist:
-            self.create(user_id=user_id, repository_id=repository_id)
+        except RepositoryStar.DoesNotExist:
+            self.create(user=user, repository=repository)
 
             return True  # Indicate that the data was created
 
 
-class StarRepository(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    repository_id = models.ForeignKey(Repository, on_delete=models.CASCADE)
+class RepositoryStar(models.Model):
+    class Meta:
+        db_table = "repository_star"
 
-    objects = StarRepositoryManager()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
+
+    objects = RepositoryStarManager()
 
     def __str__(self):
         return self.name

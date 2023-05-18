@@ -1,12 +1,14 @@
+from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import status
+
 from authentication.forms import RegistrationForm
 from authentication.models import User
-from .serializers import LoginSerializer
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import permission_classes
 from project.helpers import create_response
+
+from .serializers import LoginSerializer
 
 
 class LoginView(APIView):

@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db import models
 
 
 class UserManager(BaseUserManager):
@@ -21,6 +21,9 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    class Meta:
+        db_table = "user"
+
     username = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=30)

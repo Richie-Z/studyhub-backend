@@ -136,6 +136,14 @@
         "documentation": {}
     },
     {
+        "label": "forms",
+        "importPath": "django",
+        "description": "django",
+        "isExtraImport": true,
+        "detail": "django",
+        "documentation": {}
+    },
+    {
         "label": "UnicodeUsernameValidator",
         "importPath": "django.contrib.auth.validators",
         "description": "django.contrib.auth.validators",
@@ -169,6 +177,14 @@
     },
     {
         "label": "serializers",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
+        "label": "status",
         "importPath": "rest_framework",
         "description": "rest_framework",
         "isExtraImport": true,
@@ -256,6 +272,54 @@
         "documentation": {}
     },
     {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "permission_classes",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "permission_classes",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
+        "label": "APIView",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
+        "documentation": {}
+    },
+    {
         "label": "APIView",
         "importPath": "rest_framework.views",
         "description": "rest_framework.views",
@@ -304,19 +368,11 @@
         "documentation": {}
     },
     {
-        "label": "IsAuthenticated",
-        "importPath": "rest_framework.permissions",
-        "description": "rest_framework.permissions",
+        "label": "create_response",
+        "importPath": "project.helpers",
+        "description": "project.helpers",
         "isExtraImport": true,
-        "detail": "rest_framework.permissions",
-        "documentation": {}
-    },
-    {
-        "label": "permission_classes",
-        "importPath": "rest_framework.decorators",
-        "description": "rest_framework.decorators",
-        "isExtraImport": true,
-        "detail": "rest_framework.decorators",
+        "detail": "project.helpers",
         "documentation": {}
     },
     {
@@ -361,11 +417,11 @@
         "documentation": {}
     },
     {
-        "label": "render",
-        "importPath": "django.shortcuts",
-        "description": "django.shortcuts",
+        "label": "Repository",
+        "importPath": "repository.models",
+        "description": "repository.models",
         "isExtraImport": true,
-        "detail": "django.shortcuts",
+        "detail": "repository.models",
         "documentation": {}
     },
     {
@@ -426,6 +482,22 @@
         "documentation": {}
     },
     {
+        "label": "slugify",
+        "importPath": "django.utils.text",
+        "description": "django.utils.text",
+        "isExtraImport": true,
+        "detail": "django.utils.text",
+        "documentation": {}
+    },
+    {
+        "label": "CreateRepositoryView",
+        "importPath": "repository.views",
+        "description": "repository.views",
+        "isExtraImport": true,
+        "detail": "repository.views",
+        "documentation": {}
+    },
+    {
         "label": "sys",
         "kind": 6,
         "isExtraImport": true,
@@ -475,7 +547,7 @@
         "kind": 6,
         "importPath": "authentication.models",
         "description": "authentication.models",
-        "peekOfCode": "class User(AbstractBaseUser):\n    username = models.CharField(max_length=200)\n    email = models.EmailField(unique=True)\n    full_name = models.CharField(max_length=30)\n    USERNAME_FIELD = \"email\"\n    REQUIRED_FIELDS = [\"username\", \"full_name\"]\n    objects = UserManager()\n    def __str__(self):\n        return self.email",
+        "peekOfCode": "class User(AbstractBaseUser):\n    class Meta:\n        db_table = \"user\"\n    username = models.CharField(max_length=200)\n    email = models.EmailField(unique=True)\n    full_name = models.CharField(max_length=30)\n    USERNAME_FIELD = \"email\"\n    REQUIRED_FIELDS = [\"username\", \"full_name\"]\n    objects = UserManager()\n    def __str__(self):",
         "detail": "authentication.models",
         "documentation": {}
     },
@@ -547,7 +619,7 @@
         "kind": 6,
         "importPath": "commit.models",
         "description": "commit.models",
-        "peekOfCode": "class CommitManager(models.Manager):\n    def create_commit(\n        self,\n        commit_msg,\n        user_id,\n        repository_id,\n        commit_date,\n        is_active=True,\n        is_rollback=False,\n    ):",
+        "peekOfCode": "class CommitManager(models.Manager):\n    def create_commit(\n        self,\n        commit_msg,\n        user,\n        repository,\n        commit_date,\n        is_active=True,\n        is_rollback=False,\n    ):",
         "detail": "commit.models",
         "documentation": {}
     },
@@ -556,7 +628,7 @@
         "kind": 6,
         "importPath": "commit.models",
         "description": "commit.models",
-        "peekOfCode": "class Commit(models.Model):\n    commit_msg = models.CharField(max_length=255)\n    user_id = models.ForeignKey(User, on_delete=models.CASCADE)\n    repository_id = models.ForeignKey(Repository, on_delete=models.CASCADE)\n    commit_date = models.DateField()\n    is_active = models.BooleanField(default=True)\n    is_rollback = models.BooleanField(default=False)\n    objects = CommitManager()\n    def __str__(self) -> str:\n        return self.commit_msg",
+        "peekOfCode": "class Commit(models.Model):\n    class Meta:\n        db_table = \"commit\"\n    commit_msg = models.CharField(max_length=255)\n    user = models.ForeignKey(User, on_delete=models.CASCADE)\n    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)\n    commit_date = models.DateField()\n    is_active = models.BooleanField(default=True)\n    is_rollback = models.BooleanField(default=False)\n    objects = CommitManager()",
         "detail": "commit.models",
         "documentation": {}
     },
@@ -565,7 +637,7 @@
         "kind": 6,
         "importPath": "commit.models",
         "description": "commit.models",
-        "peekOfCode": "class FolderManager(models.Manager):\n    def create_folder(self, commit_id, folder_name):\n        folder = self.model(commit_id=commit_id, folder_name=folder_name)\n        folder.save()\n        return folder\nclass CommitFolder(models.Model):\n    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    folder_name = models.CharField(max_length=255)\n    objects = FolderManager()\n    def __str__(self) -> str:",
+        "peekOfCode": "class FolderManager(models.Manager):\n    def create_folder(self, commit, folder_name):\n        folder = self.model(commit=commit, folder_name=folder_name)\n        folder.save()\n        return folder\nclass CommitFolder(models.Model):\n    class Meta:\n        db_table = \"commit_folder\"\n    commit = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    folder_name = models.CharField(max_length=255)",
         "detail": "commit.models",
         "documentation": {}
     },
@@ -574,7 +646,7 @@
         "kind": 6,
         "importPath": "commit.models",
         "description": "commit.models",
-        "peekOfCode": "class CommitFolder(models.Model):\n    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    folder_name = models.CharField(max_length=255)\n    objects = FolderManager()\n    def __str__(self) -> str:\n        return self.folder_name\nclass FileManager(models.Manager):\n    def create_file(self, commit_id, file_name, commit_folder_id):\n        file = self.model(\n            commit_id=commit_id, file_name=file_name, commit_folder_id=commit_folder_id",
+        "peekOfCode": "class CommitFolder(models.Model):\n    class Meta:\n        db_table = \"commit_folder\"\n    commit = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    folder_name = models.CharField(max_length=255)\n    objects = FolderManager()\n    def __str__(self) -> str:\n        return self.folder_name\nclass FileManager(models.Manager):\n    def create_file(self, commit, file_name, commit_folder_id):",
         "detail": "commit.models",
         "documentation": {}
     },
@@ -583,7 +655,7 @@
         "kind": 6,
         "importPath": "commit.models",
         "description": "commit.models",
-        "peekOfCode": "class FileManager(models.Manager):\n    def create_file(self, commit_id, file_name, commit_folder_id):\n        file = self.model(\n            commit_id=commit_id, file_name=file_name, commit_folder_id=commit_folder_id\n        )\n        file.save()\n        return file\nclass CommitFile(models.Model):\n    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    file_name = models.CharField(max_length=255)",
+        "peekOfCode": "class FileManager(models.Manager):\n    def create_file(self, commit, file_name, commit_folder_id):\n        file = self.model(\n            commit=commit, file_name=file_name, commit_folder_id=commit_folder_id\n        )\n        file.save()\n        return file\nclass CommitFile(models.Model):\n    class Meta:\n        db_table = \"commit_file\"",
         "detail": "commit.models",
         "documentation": {}
     },
@@ -592,7 +664,7 @@
         "kind": 6,
         "importPath": "commit.models",
         "description": "commit.models",
-        "peekOfCode": "class CommitFile(models.Model):\n    commit_id = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    file_name = models.CharField(max_length=255)\n    commit_folder_id = models.ForeignKey(\n        CommitFolder, on_delete=models.CASCADE, null=True\n    )\n    objects = FileManager()\n    def __str__(self) -> str:\n        return self.file_name",
+        "peekOfCode": "class CommitFile(models.Model):\n    class Meta:\n        db_table = \"commit_file\"\n    commit = models.ForeignKey(Commit, on_delete=models.CASCADE)\n    file_name = models.CharField(max_length=255)\n    commit_folder_id = models.ForeignKey(\n        CommitFolder, on_delete=models.CASCADE, null=True\n    )\n    objects = FileManager()\n    def __str__(self) -> str:",
         "detail": "commit.models",
         "documentation": {}
     },
@@ -840,11 +912,20 @@
         "documentation": {}
     },
     {
+        "label": "RepositoryForm",
+        "kind": 6,
+        "importPath": "repository.forms",
+        "description": "repository.forms",
+        "peekOfCode": "class RepositoryForm(forms.ModelForm):\n    class Meta:\n        model = Repository\n        fields = [\"repository_name\", \"repository_detail\", \"user\", \"is_private\"]",
+        "detail": "repository.forms",
+        "documentation": {}
+    },
+    {
         "label": "RepositoryManager",
         "kind": 6,
         "importPath": "repository.models",
         "description": "repository.models",
-        "peekOfCode": "class RepositoryManager(models.Manager):\n    def create_repository(self, name, detail, user_id, is_private=False):\n        repository = self.model(\n            name=name, detail=detail, user_id=user_id, is_private=is_private\n        )\n        repository.save()\n        return repository\n    def get_public_repositories(self):\n        return self.filter(is_private=False)\nclass Repository(models.Model):",
+        "peekOfCode": "class RepositoryManager(models.Manager):\n    def create_repository(self, name, detail, user, is_private=False):\n        repository = self.model(\n            name=slugify(name), detail=detail, user=user, is_private=is_private\n        )\n        repository.save()\n        return repository\n    def get_public_repositories(self):\n        return self.filter(is_private=False)\nclass Repository(models.Model):",
         "detail": "repository.models",
         "documentation": {}
     },
@@ -853,25 +934,25 @@
         "kind": 6,
         "importPath": "repository.models",
         "description": "repository.models",
-        "peekOfCode": "class Repository(models.Model):\n    name = models.CharField(max_length=255)\n    detail = models.TextField()\n    user_id = models.ForeignKey(User, on_delete=models.CASCADE)\n    is_private = models.BooleanField(default=False)\n    objects = RepositoryManager()\n    def __str__(self):\n        return self.name\nclass StarRepositoryManager(models.Manager):\n    def toggle(self, user_id, repository_id):",
+        "peekOfCode": "class Repository(models.Model):\n    class Meta:\n        db_table = \"repository\"\n    repository_name = models.CharField(max_length=255)\n    repository_detail = models.TextField()\n    user = models.ForeignKey(User, on_delete=models.CASCADE)\n    is_private = models.BooleanField(default=False)\n    objects = RepositoryManager()\n    def __str__(self):\n        return self.name",
         "detail": "repository.models",
         "documentation": {}
     },
     {
-        "label": "StarRepositoryManager",
+        "label": "RepositoryStarManager",
         "kind": 6,
         "importPath": "repository.models",
         "description": "repository.models",
-        "peekOfCode": "class StarRepositoryManager(models.Manager):\n    def toggle(self, user_id, repository_id):\n        try:\n            star_repo = self.get(user_id=user_id, repository_id=repository_id)\n            star_repo.delete()\n            return False  # Indicate that the data was deleted\n        except StarRepository.DoesNotExist:\n            self.create(user_id=user_id, repository_id=repository_id)\n            return True  # Indicate that the data was created\nclass StarRepository(models.Model):",
+        "peekOfCode": "class RepositoryStarManager(models.Manager):\n    def toggle(self, user, repository):\n        try:\n            star_repo = self.get(user=user, repository=repository)\n            star_repo.delete()\n            return False  # Indicate that the data was deleted\n        except RepositoryStar.DoesNotExist:\n            self.create(user=user, repository=repository)\n            return True  # Indicate that the data was created\nclass RepositoryStar(models.Model):",
         "detail": "repository.models",
         "documentation": {}
     },
     {
-        "label": "StarRepository",
+        "label": "RepositoryStar",
         "kind": 6,
         "importPath": "repository.models",
         "description": "repository.models",
-        "peekOfCode": "class StarRepository(models.Model):\n    user_id = models.ForeignKey(User, on_delete=models.CASCADE)\n    repository_id = models.ForeignKey(Repository, on_delete=models.CASCADE)\n    objects = StarRepositoryManager()\n    def __str__(self):\n        return self.name",
+        "peekOfCode": "class RepositoryStar(models.Model):\n    class Meta:\n        db_table = \"repository_star\"\n    user = models.ForeignKey(User, on_delete=models.CASCADE)\n    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)\n    objects = RepositoryStarManager()\n    def __str__(self):\n        return self.name",
         "detail": "repository.models",
         "documentation": {}
     },
@@ -880,8 +961,17 @@
         "kind": 5,
         "importPath": "repository.urls",
         "description": "repository.urls",
-        "peekOfCode": "urlpatterns = []",
+        "peekOfCode": "urlpatterns = [path(\"\", CreateRepositoryView.as_view(), name=\"create_repo\")]",
         "detail": "repository.urls",
+        "documentation": {}
+    },
+    {
+        "label": "CreateRepositoryView",
+        "kind": 6,
+        "importPath": "repository.views",
+        "description": "repository.views",
+        "peekOfCode": "class CreateRepositoryView(APIView):\n    def post(self, request):\n        form = RepositoryForm(request.POST)\n        if form.is_valid():\n            repository = Repository.objects.create_repository(**request.POST)\n            return create_response(\"Success Create Repository\", status.HTTP_201_CREATED)\n        else:\n            return create_response(\n                \"Error Create Repository\",\n                status.HTTP_400_BAD_REQUEST,",
+        "detail": "repository.views",
         "documentation": {}
     },
     {

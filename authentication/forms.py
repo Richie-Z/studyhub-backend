@@ -1,22 +1,14 @@
 from django import forms
-from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.core.validators import EmailValidator
 
 from authentication.models import User
 
 
 class RegistrationForm(forms.ModelForm):
-    confirm_password = forms.CharField(
-        widget=forms.PasswordInput, help_text="Confirm your password"
-    )
+    confirm_password = forms.CharField()
 
     class Meta:
         model = User
         fields = ["username", "email", "password", "full_name"]
-
-        widgets = {
-            "password": forms.PasswordInput(),
-        }
 
     def clean(self):
         cleaned_data = super().clean()

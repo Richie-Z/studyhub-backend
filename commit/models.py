@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 from authentication.models import User
@@ -20,7 +22,7 @@ class CommitManager(models.Manager):
             commit_msg=commit_msg,
             user=user,
             repository=repository,
-            commit_date=commit_date,
+            commit_date=datetime.date.today(),
             is_active=is_active,
             is_rollback=is_rollback,
         )

@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 
 from project.helpers import create_response
 from repository.models import Repository, RepositoryStar
+from repository.serializers import RepositorySerializer
 
 from .forms import RepositoryForm, RepositoryStarForm
 
@@ -46,3 +47,15 @@ class RepositoryStarView(APIView):
                 status.HTTP_400_BAD_REQUEST,
                 {"errors": form.errors},
             )
+
+
+@permission_classes([IsAuthenticated])
+class GetAllRepository(APIView):
+    def get(self, request, *args, **kwargs):
+        user = self.kwargs.get("user") or request.user
+        if user == "is_null":
+            return create_response("Invalid User ID", status.HTTP_404_NOT_FOUND)
+        repository = Repository.objects.get(user=user)
+        serializer = RepositorySerializer(repository, context={"request": request})
+        data = serializer.data
+        return create_response("Get Data Success", status.HTTP_200_OK, data)

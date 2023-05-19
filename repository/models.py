@@ -33,7 +33,7 @@ class Repository(models.Model):
     objects = RepositoryManager()
 
     def __str__(self):
-        return self.name
+        return self.repository_name
 
 
 class RepositoryStarManager(models.Manager):
@@ -57,6 +57,3 @@ class RepositoryStar(models.Model):
     repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
 
     objects = RepositoryStarManager()
-
-    def __str__(self):
-        return self.name

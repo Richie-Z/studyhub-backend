@@ -55,7 +55,10 @@ class GetAllRepository(APIView):
         user = self.kwargs.get("user") or request.user
         if user == "is_null":
             return create_response("Invalid User ID", status.HTTP_404_NOT_FOUND)
-        repository = Repository.objects.get(user=user)
-        serializer = RepositorySerializer(repository, context={"request": request})
-        data = serializer.data
-        return create_response("Get Data Success", status.HTTP_200_OK, data)
+        try:
+            repository = Repository.objects.get(user=user)
+            serializer = RepositorySerializer(repository, context={"request": request})
+            data = serializer.data
+            return create_response("Get Data Success", status.HTTP_200_OK, data)
+        except Repository.DoesNotExist:
+            return create_response("Get Data Success", status.HTTP_200_OK)

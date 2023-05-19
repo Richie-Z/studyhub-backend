@@ -4,9 +4,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from project.helpers import create_response
-from repository.models import Repository
+from repository.models import Repository, RepositoryStar
 
-from .forms import RepositoryForm
+from .forms import RepositoryForm, RepositoryStarForm
 
 
 @permission_classes([IsAuthenticated])
@@ -26,6 +26,23 @@ class CreateRepositoryView(APIView):
         else:
             return create_response(
                 "Error Create Repository",
+                status.HTTP_400_BAD_REQUEST,
+                {"errors": form.errors},
+            )
+
+
+@permission_classes([IsAuthenticated])
+class RepositoryStarView(APIView):
+    def post(self, request):
+        user = request.user
+        form = RepositoryStarForm(request.POST)
+        if form.is_valid():
+            repository = form.cleaned_data["repository"]
+            RepositoryStar.objects.toggle(user=user, repository=repository)
+            return create_response("Success Toggle star Repository", status.HTTP_200_OK)
+        else:
+            return create_response(
+                "Error Toggle Repository",
                 status.HTTP_400_BAD_REQUEST,
                 {"errors": form.errors},
             )

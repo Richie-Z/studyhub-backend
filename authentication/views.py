@@ -4,11 +4,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from authentication.forms import RegistrationForm
-from authentication.models import User
 from project.helpers import create_response
 
-from .serializers import LoginSerializer
+from .models import User
+from .serializers import LoginSerializer, RegistrationSerializer
 
 
 class LoginView(APIView):
@@ -40,21 +39,13 @@ class UserInfoView(APIView):
 
 class RegisterView(APIView):
     def post(self, request):
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data["username"]
-            email = form.cleaned_data["email"]
-            password = form.cleaned_data["password"]
-            full_name = form.cleaned_data["full_name"]
-
-            user = User.objects.create_user(
-                username=username, full_name=full_name, email=email, password=password
-            )
+        serializer = RegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.create(serializer.validated_data)
             return create_response("Success Register", status.HTTP_201_CREATED)
-
         else:
             return create_response(
                 "Error while creating user",
                 status.HTTP_400_BAD_REQUEST,
-                {"errors": form.errors},
+                {"errors": serializer.errors},
             )

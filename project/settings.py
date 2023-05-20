@@ -1,9 +1,12 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-pe@odfzoy!w^0xx+1p+3lvqb_=+s5@c1c_x*@8pw!83=4nzcj#"
 DEBUG = True
 ALLOWED_HOSTS = []
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+MEDIA_URL = "/uploads/"
 
 INSTALLED_APPS = [
     "django.contrib.admin",

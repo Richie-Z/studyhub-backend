@@ -1,4 +1,4 @@
-from pathlib import Path
+import os
 
 from django.db import models
 
@@ -91,4 +91,4 @@ class CommitFile(models.Model):
     objects = FileManager()
 
     def __str__(self) -> str:
-        return Path(self.upload_path).resolve().stem
+        return os.path.basename(self.upload_path.name)

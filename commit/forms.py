@@ -16,6 +16,8 @@ class FolderForm(forms.ModelForm):
 
 
 class FileForm(forms.ModelForm):
+    allow_multiple_selected = True
+
     class Meta:
         model = CommitFile
-        fields = ["file_name"]
+        fields = ["upload_path"]

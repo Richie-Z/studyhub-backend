@@ -1,50 +1,36 @@
-# Create your views here.
 from rest_framework import status
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import parser_classes, permission_classes
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
+from commit.models import CommitFile
+from commit.serializers import CommitSerializer, FileSerializer
 from project.helpers import create_response
-from repository.models import Repository, RepositoryStar
-from repository.serializers import RepositorySerializer
-
-from .forms import CommitForm
 
 
 @permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
 class CreateCommitFileView(APIView):
     def post(self, request):
-        commit_form = CommitForm(request.POST)
-        if commit_form.is_valid():
-            repository_name = commit_form.cleaned_data["repository_name"]
-            repository_detail = commit_form.cleaned_data["repository_detail"]
-            user = commit_form.cleaned_data["user"]
-            repository = Repository.objects.create_repository(
-                repository_name=repository_name,
-                repository_detail=repository_detail,
-                user=user,
+        commit_serializer = CommitSerializer(data=request.data)
+        if commit_serializer.is_valid():
+            commit = commit_serializer.save(user=request.user)
+            commit_file_serializer = FileSerializer(
+                data=request.data, context={"commit": commit}
             )
-            return create_response("Success Create Repository", status.HTTP_201_CREATED)
+            if commit_file_serializer.is_valid():
+                commit_file_serializer.save(commit=commit)
+                return create_response("Success Create Commit", status.HTTP_201_CREATED)
+            else:
+                return create_response(
+                    "Error Create Commit (File)",
+                    status.HTTP_400_BAD_REQUEST,
+                    {"errors": commit_file_serializer.errors},
+                )
         else:
             return create_response(
-                "Error Create Repository",
+                "Error Create Commit",
                 status.HTTP_400_BAD_REQUEST,
-                {"errors": form.errors},
-            )
-
-
-@permission_classes([IsAuthenticated])
-class RepositoryStarView(APIView):
-    def post(self, request):
-        user = request.user
-        form = RepositoryStarForm(request.POST)
-        if form.is_valid():
-            repository = form.cleaned_data["repository"]
-            RepositoryStar.objects.toggle(user=user, repository=repository)
-            return create_response("Success Toggle star Repository", status.HTTP_200_OK)
-        else:
-            return create_response(
-                "Error Toggle Repository",
-                status.HTTP_400_BAD_REQUEST,
-                {"errors": form.errors},
+                {"errors": commit_serializer.errors},
             )

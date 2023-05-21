@@ -1,4 +1,4 @@
-import datetime
+from pathlib import Path
 
 from django.db import models
 
@@ -12,7 +12,6 @@ class CommitManager(models.Manager):
         commit_msg,
         user,
         repository,
-        commit_date,
         is_active=True,
         is_rollback=False,
     ):
@@ -22,7 +21,6 @@ class CommitManager(models.Manager):
             commit_msg=commit_msg,
             user=user,
             repository=repository,
-            commit_date=datetime.date.today(),
             is_active=is_active,
             is_rollback=is_rollback,
         )
@@ -37,13 +35,13 @@ class Commit(models.Model):
     commit_msg = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
-    commit_date = models.DateField()
+    commit_date = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_rollback = models.BooleanField(default=False)
 
     objects = CommitManager()
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.commit_msg
 
 
@@ -68,12 +66,18 @@ class CommitFolder(models.Model):
 
 
 class FileManager(models.Manager):
-    def create_file(self, commit, file_name, commit_folder_id):
-        file = self.model(
-            commit=commit, file_name=file_name, commit_folder_id=commit_folder_id
+    def create_file(self, commit, upload_path, commit_folder=None):
+        file_model = self.model(
+            commit=commit, upload_path=upload_path, commit_folder=commit_folder
         )
-        file.save()
-        return file
+        file_model.save()
+        return file_model
+
+
+def get_commit_upload_path(instance, filename):
+    commit_id = instance.commit.id
+    upload_path = f"commit/commit_{commit_id}/{filename}"
+    return upload_path
 
 
 class CommitFile(models.Model):
@@ -81,12 +85,10 @@ class CommitFile(models.Model):
         db_table = "commit_file"
 
     commit = models.ForeignKey(Commit, on_delete=models.CASCADE)
-    file_name = models.CharField(max_length=255)
-    commit_folder_id = models.ForeignKey(
-        CommitFolder, on_delete=models.CASCADE, null=True
-    )
+    upload_path = models.FileField(upload_to=get_commit_upload_path)
+    commit_folder = models.ForeignKey(CommitFolder, on_delete=models.CASCADE, null=True)
 
     objects = FileManager()
 
     def __str__(self) -> str:
-        return self.file_name
+        return Path(self.upload_path).resolve().stem

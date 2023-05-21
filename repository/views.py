@@ -3,9 +3,14 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
+from commit.models import Commit
 from project.helpers import create_response
 from repository.models import Repository, RepositoryStar
-from repository.serializers import RepositorySerializer, RepositoryStarSerializer
+from repository.serializers import (
+    RepositoryCommitListSerializer,
+    RepositorySerializer,
+    RepositoryStarSerializer,
+)
 
 
 @permission_classes([IsAuthenticated])
@@ -48,6 +53,24 @@ class GetAllRepository(APIView):
             repository = Repository.objects.filter(user=user)
             serializer = RepositorySerializer(
                 repository, many=True, context={"request": request}
+            )
+            data = serializer.data
+            return create_response("Get Data Success", status.HTTP_200_OK, data)
+        except Repository.DoesNotExist:
+            return create_response("Get Data Success", status.HTTP_200_OK)
+
+
+@permission_classes([IsAuthenticated])
+class GetRepositoryComitListView(APIView):
+    def get(self, request, *args, **kwargs):
+        repo = kwargs.get("repository")
+        if repo == "is_null":
+            return create_response("Invalid Repository ID", status.HTTP_404_NOT_FOUND)
+
+        try:
+            commit = Commit.objects.filter(repository=repo)
+            serializer = RepositoryCommitListSerializer(
+                commit, many=True, context={"request": request}
             )
             data = serializer.data
             return create_response("Get Data Success", status.HTTP_200_OK, data)

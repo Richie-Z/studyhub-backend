@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from authentication.models import User
+from commit.models import Commit
 
 from .models import Repository, RepositoryStar
 
@@ -39,6 +39,20 @@ class RepositorySerializer(serializers.ModelSerializer):
         )
 
         return repository
+
+
+class SimpleRepositorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Repository
+        fields = ["repository_name", "repository_detail", "is_private"]
+
+
+class RepositoryCommitListSerializer(serializers.ModelSerializer):
+    repository = SimpleRepositorySerializer()
+
+    class Meta:
+        model = Commit
+        fields = ["commit_msg", "repository", "commit_date"]
 
 
 class RepositoryStarSerializer(serializers.ModelSerializer):

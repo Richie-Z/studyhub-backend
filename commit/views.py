@@ -25,7 +25,6 @@ class CreateCommitFileView(APIView):
                 status.HTTP_400_BAD_REQUEST,
                 {"errors": commit_serializer.errors},
             )
-        commit = commit_serializer.save(user=request.user)
 
         commit_file_serializer = FileSerializer(data=request.data)
         if not commit_file_serializer.is_valid():
@@ -34,6 +33,7 @@ class CreateCommitFileView(APIView):
                 status.HTTP_400_BAD_REQUEST,
                 {"errors": commit_file_serializer.errors},
             )
+        commit = commit_serializer.save(user=request.user)
         commit_file_serializer.save(commit=commit)
         return create_response("Success Create Commit", status.HTTP_201_CREATED)
 
@@ -49,7 +49,6 @@ class CreateCommitFolderView(APIView):
                 status.HTTP_400_BAD_REQUEST,
                 {"errors": commit_serializer.errors},
             )
-        commit = commit_serializer.save(user=request.user)
 
         commit_folder_serializer = FolderSerializer(data=request.data)
         if not commit_folder_serializer.is_valid():
@@ -58,7 +57,6 @@ class CreateCommitFolderView(APIView):
                 status.HTTP_400_BAD_REQUEST,
                 {"errors": commit_folder_serializer.errors},
             )
-        commit_folder = commit_folder_serializer.save(commit=commit)
 
         commit_file_serializer = FileSerializer(data=request.data)
         if not commit_file_serializer.is_valid():
@@ -67,6 +65,8 @@ class CreateCommitFolderView(APIView):
                 status.HTTP_400_BAD_REQUEST,
                 {"errors": commit_file_serializer.errors},
             )
+        commit = commit_serializer.save(user=request.user)
+        commit_folder = commit_folder_serializer.save(commit=commit)
         commit_file_serializer.save_folder(commit=commit, commit_folder=commit_folder)
 
         return create_response("Success Create Commit", status.HTTP_201_CREATED)

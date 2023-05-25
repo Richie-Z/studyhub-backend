@@ -15,7 +15,7 @@ from repository.serializers import (
 
 
 @permission_classes([IsAuthenticated])
-class CreateRepositoryView(APIView):
+class CreateRepository(APIView):
     def post(self, request):
         serializer = RepositorySerializer(data=request.data)
         if serializer.is_valid():
@@ -30,7 +30,7 @@ class CreateRepositoryView(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class RepositoryStarView(APIView):
+class ToggleRepositoryStar(APIView):
     def post(self, request):
         serializer = RepositoryStarSerializer(data=request.data)
         if serializer.is_valid():
@@ -62,7 +62,7 @@ class GetAllRepository(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class GetRepositoryComitListView(APIView):
+class GetRepositoryComitList(APIView):
     def get(self, request, *args, **kwargs):
         repo = kwargs.get("repository")
         if repo == "is_null":

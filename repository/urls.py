@@ -1,11 +1,11 @@
 from django.urls import path, register_converter
 
 from repository.views import (
-    CreateRepositoryView,
+    CreateRepository,
     GetAllRepository,
-    GetRepositoryComitListView,
+    GetRepositoryComitList,
     GetRepositoryDetail,
-    RepositoryStarView,
+    ToggleRepositoryStar,
 )
 
 from .converters import RepositoryConverter, UserConverter
@@ -14,8 +14,8 @@ register_converter(UserConverter, "user")
 register_converter(RepositoryConverter, "repository")
 
 urlpatterns = [
-    path("", CreateRepositoryView.as_view(), name="create_repo"),
-    path("toggle", RepositoryStarView.as_view(), name="toggle_star"),
+    path("", CreateRepository.as_view(), name="create_repo"),
+    path("toggle", ToggleRepositoryStar.as_view(), name="toggle_star"),
     path("all", GetAllRepository.as_view(), name="get_all"),
     path("all/<user:user>", GetAllRepository.as_view(), name="get_all"),
     path(
@@ -25,7 +25,7 @@ urlpatterns = [
     ),
     path(
         "repository/<repository:repository>",
-        GetRepositoryComitListView.as_view(),
+        GetRepositoryComitList.as_view(),
         name="get_repo_commit",
     ),
 ]

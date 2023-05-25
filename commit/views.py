@@ -16,7 +16,7 @@ from project.helpers import create_response
 
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
-class CreateCommitFileView(APIView):
+class CreateCommitFile(APIView):
     def post(self, request):
         commit_serializer = CommitSerializer(data=request.data)
         if not commit_serializer.is_valid():
@@ -40,7 +40,7 @@ class CreateCommitFileView(APIView):
 
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
-class CreateCommitFolderView(APIView):
+class CreateCommitFolder(APIView):
     def post(self, request):
         commit_serializer = CommitSerializer(data=request.data)
         if not commit_serializer.is_valid():

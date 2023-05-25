@@ -10,7 +10,7 @@ from .models import User
 from .serializers import LoginSerializer, RegistrationSerializer
 
 
-class LoginView(APIView):
+class Login(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -28,7 +28,7 @@ class LoginView(APIView):
 
 
 @permission_classes([IsAuthenticated])
-class UserInfoView(APIView):
+class GetUserInfo(APIView):
     def get(self, request):
         user = request.user
         data = {
@@ -37,7 +37,7 @@ class UserInfoView(APIView):
         return create_response("Success Get User", status.HTTP_200_OK, data)
 
 
-class RegisterView(APIView):
+class Register(APIView):
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
         if serializer.is_valid():

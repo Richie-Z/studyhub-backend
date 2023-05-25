@@ -5,8 +5,10 @@ from rest_framework.views import APIView
 
 from commit.models import Commit
 from project.helpers import create_response
-from repository.models import Repository, RepositoryStar
-from repository.serializers import (
+
+from .models import Repository, RepositoryStar
+from .serializers import (
+    FolderFileSerializer,
     RepositoryCommitListSerializer,
     RepositoryDetailSerializer,
     RepositorySerializer,
@@ -89,3 +91,28 @@ class GetRepositoryDetail(APIView):
         repository = RepositoryDetailSerializer(repo)
         data = repository.data
         return create_response("Get Data Success", status.HTTP_200_OK, data)
+
+
+@permission_classes([IsAuthenticated])
+class GetFolderFile(APIView):
+    def post(self, request, *args, **kwargs):
+        repo = kwargs.get("repository")
+        if repo == "is_null":
+            return create_response("Invalid Repository ID", status.HTTP_404_NOT_FOUND)
+
+        data = {
+            "folder_name": request.data.get("folder_name"),
+        }
+        folder_file_serializer = FolderFileSerializer(
+            data=data, context={"repository": repo}
+        )
+
+        if not folder_file_serializer.is_valid():
+            return create_response(
+                "Error",
+                status.HTTP_400_BAD_REQUEST,
+                {"errors": folder_file_serializer.errors},
+            )
+
+        data = folder_file_serializer.data
+        return create_response("Success", status.HTTP_200_OK, data=data)

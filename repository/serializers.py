@@ -150,3 +150,26 @@ class RepositoryStarSerializer(serializers.ModelSerializer):
         user = kwargs.get("user")
         repo = RepositoryStar.objects.toggle(user=user, repository=repository)
         return repo
+
+
+class FolderFileSerializer(serializers.Serializer):
+    folder_name = serializers.CharField()
+    files = serializers.SerializerMethodField()
+
+    def get_files(self, obj):
+        folder_name = self.validated_data["folder_name"]
+        repository = self.context.get("repository")
+        commit_folder = CommitFolder.objects.filter(
+            folder_name=folder_name, commit__repository=repository
+        )
+
+        file_data = []
+        for folder in commit_folder:
+            file = CommitFile.objects.filter(commit_folder=folder)
+            file_data.append(SimpleCommitFileSerializer(file, many=True).data)
+
+        file_data = itertools.chain(*file_data)
+
+        file_result = process_file(file_data)
+
+        return file_result

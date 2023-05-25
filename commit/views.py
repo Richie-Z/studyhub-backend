@@ -4,15 +4,16 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from commit.models import Commit
-from commit.serializers import (
+from project.helpers import create_response
+
+from .models import Commit
+from .serializers import (
     CommitDetailSerializer,
     CommitSerializer,
     FileSerializer,
     FolderSerializer,
     RollbackSerializer,
 )
-from project.helpers import create_response
 
 
 @permission_classes([IsAuthenticated])

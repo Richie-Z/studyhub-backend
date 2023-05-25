@@ -3,6 +3,7 @@ from django.urls import path, register_converter
 from repository.views import (
     CreateRepository,
     GetAllRepository,
+    GetFolderFile,
     GetRepositoryComitList,
     GetRepositoryDetail,
     ToggleRepositoryStar,
@@ -27,5 +28,10 @@ urlpatterns = [
         "repository/<repository:repository>",
         GetRepositoryComitList.as_view(),
         name="get_repo_commit",
+    ),
+    path(
+        "folder/<repository:repository>",
+        GetFolderFile.as_view(),
+        name="get_repo_folder_file",
     ),
 ]

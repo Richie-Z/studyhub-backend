@@ -10,6 +10,7 @@ from commit.serializers import (
     CommitSerializer,
     FileSerializer,
     FolderSerializer,
+    RollbackSerializer,
 )
 from project.helpers import create_response
 
@@ -85,3 +86,18 @@ class GetCommitDetail(APIView):
             return create_response("Get Data Success", status.HTTP_200_OK, data)
         except Commit.DoesNotExist:
             return create_response("Get Data Success", status.HTTP_200_OK)
+
+
+@permission_classes([IsAuthenticated])
+class ActivateCommit(APIView):
+    def post(self, request):
+        rollback_serializer = RollbackSerializer(data=request.data)
+        if not rollback_serializer.is_valid():
+            return create_response(
+                "Error Activating Commit",
+                status.HTTP_400_BAD_REQUEST,
+                {"errors": rollback_serializer.errors},
+            )
+
+        rollback_serializer.active()
+        return create_response("Success Activating Commit", status.HTTP_200_OK)

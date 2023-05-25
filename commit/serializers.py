@@ -92,3 +92,20 @@ class CommitDetailSerializer(serializers.ModelSerializer):
             serializer = SimpleCommitFileSerializer(commit_file, many=True)
 
         return serializer.data
+
+
+class RollbackSerializer(serializers.Serializer):
+    commit = serializers.PrimaryKeyRelatedField(queryset=Commit.objects.all())
+
+    def active(self):
+        try:
+            commit_instance = self.validated_data["commit"]
+            commit_instance.is_active = True
+            commit_instance.save()
+
+            next_commits = Commit.objects.filter(id__gt=commit_instance.id)
+            next_commits.update(is_active=False, is_rollback=True)
+
+            return True
+        except Commit.DoesNotExist:
+            return False

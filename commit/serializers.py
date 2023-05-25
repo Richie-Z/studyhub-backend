@@ -6,7 +6,7 @@ from .models import Commit, CommitFile, CommitFolder
 class CommitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Commit
-        fields = ["commit_msg", "repository"]
+        fields = ["id", "commit_msg", "repository"]
 
     def save(self, **kwargs):
         commit_msg = self.validated_data["commit_msg"]
@@ -62,7 +62,7 @@ class SimpleCommitFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CommitFile
-        fields = ["upload_path", "file_name"]
+        fields = ["id", "upload_path", "file_name"]
 
     def get_file_name(self, obj):
         return str(obj)

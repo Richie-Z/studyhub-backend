@@ -4,6 +4,7 @@ from repository.views import (
     CreateRepositoryView,
     GetAllRepository,
     GetRepositoryComitListView,
+    GetRepositoryDetail,
     RepositoryStarView,
 )
 
@@ -17,6 +18,11 @@ urlpatterns = [
     path("toggle", RepositoryStarView.as_view(), name="toggle_star"),
     path("all", GetAllRepository.as_view(), name="get_all"),
     path("all/<user:user>", GetAllRepository.as_view(), name="get_all"),
+    path(
+        "detail/<repository:repository>",
+        GetRepositoryDetail.as_view(),
+        name="get_repo_detail",
+    ),
     path(
         "repository/<repository:repository>",
         GetRepositoryComitListView.as_view(),

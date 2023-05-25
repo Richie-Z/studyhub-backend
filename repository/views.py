@@ -8,6 +8,7 @@ from project.helpers import create_response
 from repository.models import Repository, RepositoryStar
 from repository.serializers import (
     RepositoryCommitListSerializer,
+    RepositoryDetailSerializer,
     RepositorySerializer,
     RepositoryStarSerializer,
 )
@@ -76,3 +77,15 @@ class GetRepositoryComitListView(APIView):
             return create_response("Get Data Success", status.HTTP_200_OK, data)
         except Repository.DoesNotExist:
             return create_response("Get Data Success", status.HTTP_200_OK)
+
+
+@permission_classes([IsAuthenticated])
+class GetRepositoryDetail(APIView):
+    def get(self, request, *args, **kwargs):
+        repo = kwargs.get("repository")
+        if repo == "is_null":
+            return create_response("Invalid Repository ID", status.HTTP_404_NOT_FOUND)
+
+        repository = RepositoryDetailSerializer(repo)
+        data = repository.data
+        return create_response("Get Data Success", status.HTTP_200_OK, data)

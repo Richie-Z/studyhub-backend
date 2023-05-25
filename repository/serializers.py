@@ -1,9 +1,11 @@
 import itertools
 
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.exceptions import APIException
 
 from commit.models import Commit, CommitFile, CommitFolder
 from commit.serializers import SimpleCommitFileSerializer, SimpleCommitFolderSerializer
+from project.helpers import create_response
 
 from .models import Repository, RepositoryStar
 
@@ -152,6 +154,14 @@ class RepositoryStarSerializer(serializers.ModelSerializer):
         return repo
 
 
+class CommitFolderNotFoundError(APIException):
+    status_code = 404
+    default_detail = (
+        "Commit folder not found for the specified repository and folder name."
+    )
+    default_code = "commit_folder_not_found"
+
+
 class FolderFileSerializer(serializers.Serializer):
     folder_name = serializers.CharField()
     files = serializers.SerializerMethodField()
@@ -162,6 +172,9 @@ class FolderFileSerializer(serializers.Serializer):
         commit_folder = CommitFolder.objects.filter(
             folder_name=folder_name, commit__repository=repository
         )
+
+        if not commit_folder.exists():
+            raise CommitFolderNotFoundError()
 
         file_data = []
         for folder in commit_folder:

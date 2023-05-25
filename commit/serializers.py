@@ -99,12 +99,18 @@ class RollbackSerializer(serializers.Serializer):
 
     def active(self):
         try:
+            Commit.objects.filter(is_active=True).update(is_active=False)
+
             commit_instance = self.validated_data["commit"]
             commit_instance.is_active = True
+            commit_instance.is_rollback = False
             commit_instance.save()
 
+            prev_commits = Commit.objects.filter(id__lt=commit_instance.id)
+            prev_commits.update(is_rollback=False)
+
             next_commits = Commit.objects.filter(id__gt=commit_instance.id)
-            next_commits.update(is_active=False, is_rollback=True)
+            next_commits.update(is_rollback=True)
 
             return True
         except Commit.DoesNotExist:

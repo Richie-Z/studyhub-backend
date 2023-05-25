@@ -25,13 +25,29 @@ class FileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CommitFile
-        fields = ["upload_path"]
+        fields = ["upload_path", "commit_folder"]
 
     def save(self, **kwargs):
         upload_paths = self.validated_data.pop("upload_path", [])
+        commit_folder = self.validated_data.get("commit_folder")
         commit = kwargs.get("commit")
-        for upload_path in upload_paths:
-            CommitFile.objects.create_file(commit=commit, upload_path=upload_path)
+        if commit_folder is not None:
+            new_commit_folder = CommitFolder.objects.create_folder(
+                commit=commit, folder_name=str(commit_folder)
+            )
+            for upload_path in upload_paths:
+                CommitFile.objects.create_file(
+                    commit=commit,
+                    upload_path=upload_path,
+                    commit_folder=new_commit_folder,
+                )
+
+        else:
+            for upload_path in upload_paths:
+                CommitFile.objects.create_file(
+                    commit=commit,
+                    upload_path=upload_path,
+                )
 
     def save_folder(self, **kwargs):
         upload_paths = self.validated_data.pop("upload_path", [])

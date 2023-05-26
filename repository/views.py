@@ -1,10 +1,11 @@
+from django.http import Http404
 from rest_framework import status
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from commit.models import Commit
-from project.helpers import create_response
+from project.helpers import create_response, user_repo_checker
 
 from .models import Repository, RepositoryStar
 from .serializers import (
@@ -33,6 +34,7 @@ class CreateRepository(APIView):
 
 @permission_classes([IsAuthenticated])
 class ToggleRepositoryStar(APIView):
+    @user_repo_checker
     def post(self, request):
         serializer = RepositoryStarSerializer(data=request.data)
         if serializer.is_valid():
@@ -65,6 +67,7 @@ class GetAllRepository(APIView):
 
 @permission_classes([IsAuthenticated])
 class GetRepositoryComitList(APIView):
+    @user_repo_checker
     def get(self, request, *args, **kwargs):
         repo = kwargs.get("repository")
         if repo == "is_null":
@@ -83,6 +86,7 @@ class GetRepositoryComitList(APIView):
 
 @permission_classes([IsAuthenticated])
 class GetRepositoryDetail(APIView):
+    @user_repo_checker
     def get(self, request, *args, **kwargs):
         repo = kwargs.get("repository")
         if repo == "is_null":
@@ -95,11 +99,11 @@ class GetRepositoryDetail(APIView):
 
 @permission_classes([IsAuthenticated])
 class GetFolderFile(APIView):
+    @user_repo_checker
     def post(self, request, *args, **kwargs):
         repo = kwargs.get("repository")
         if repo == "is_null":
             return create_response("Invalid Repository ID", status.HTTP_404_NOT_FOUND)
-
         data = {
             "folder_name": request.data.get("folder_name"),
         }

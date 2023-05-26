@@ -4,7 +4,7 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from project.helpers import create_response
+from project.helpers import create_response, user_repo_checker
 
 from .models import Commit
 from .serializers import (
@@ -19,6 +19,7 @@ from .serializers import (
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
 class CreateCommitFile(APIView):
+    @user_repo_checker
     def post(self, request):
         commit_serializer = CommitSerializer(data=request.data)
         if not commit_serializer.is_valid():
@@ -43,6 +44,7 @@ class CreateCommitFile(APIView):
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
 class CreateCommitFolder(APIView):
+    @user_repo_checker
     def post(self, request):
         commit_serializer = CommitSerializer(data=request.data)
         if not commit_serializer.is_valid():
